@@ -32,7 +32,8 @@ RUN apk add --no-cache \
     htop python3 py3-pip \
 	openjdk8 \
 	nodejs npm \
-	supervisor 
+	dcron \
+	curl
 
 COPY init.sh /init.sh
 RUN chmod +x /init.sh

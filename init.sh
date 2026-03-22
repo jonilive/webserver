@@ -201,6 +201,21 @@ Include /etc/apache2/conf.d/*.conf
 EOL
 fi
 
+# Create crontab if it doesn't exist, so user can edit it later
+if [ ! -f "/var/config/crontab" ]; then
+    echo "Creating example crontab..."
+    cat <<EOL > /var/config/crontab
+# System crontab file
+# Edit this file to add your cron jobs
+# Format: minute hour day month weekday user command
+# Example: run Laravel scheduler every day at 2 AM as apache user
+# 0 2 * * * php /www/artisan schedule:run
+
+# Uncomment the line below to run a test command every minute as apache
+# * * * * * echo "Cron is working" >> /var/log/cron.log
+EOL
+fi
+
 # If php.ini doesn't exist, copy the default php one so user can edit it later
 if [ ! -f "/var/config/php.ini" ]; then
     echo "Copy the default php.ini..."
@@ -211,6 +226,7 @@ fi
 if [ -d "/var/config" ]; then
     cp /var/config/httpd.conf /etc/apache2/httpd.conf
     cp /var/config/php.ini /etc/php85/php.ini
+    cp /var/config/crontab /etc/crontabs/root
 fi
 
 echo "Starting cron..."
