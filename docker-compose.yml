@@ -5,6 +5,6 @@ services:
     ports:
       - "80:80"
     volumes:
-      - appdata/config:/var/config
-      - appdata/log:/var/log
-      - appdata/www:/www
+      - ./appdata/config:/var/config
+      - ./appdata/log:/var/log
+      - ./appdata/www:/www
