@@ -1,3 +1,6 @@
+
+<div align="center"><img width="256" height="256" alt="logo" src="https://github.com/user-attachments/assets/f4ee7bbf-6641-4eb3-a848-ce7d113fd95d" /></div>
+
 # Web Server Docker Setup
 
 A lightweight, configurable web server container based on Alpine Linux, featuring Apache, PHP 8.5, and cron support for scheduled tasks.
