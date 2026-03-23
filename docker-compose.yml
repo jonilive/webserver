@@ -1,6 +1,6 @@
 services:
   webserver:
-    image: ${DOCKER_USERNAME}/webserver:latest
+    image: ghcr.io/jonilive/webserver:latest
     container_name: webserver
     ports:
       - "80:80"
