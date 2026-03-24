@@ -63,6 +63,8 @@ RUN apk add --no-cache \
     python3 && \
     rm -rf /var/cache/apk/*
 
+RUN adduser -D -u 99 -G users webserver
+
 COPY init.sh /init.sh
 RUN chmod +x /init.sh
 

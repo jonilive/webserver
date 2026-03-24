@@ -1,5 +1,5 @@
 #!/bin/sh
-
+umask 002
 # Create httpd.conf if it doesn't exist, so user can edit it later
 if [ ! -f "/var/config/httpd.conf" ]; then
     echo "Creating example httpd.conf..."
@@ -101,8 +101,8 @@ LoadModule alias_module modules/mod_alias.so
 LoadModule rewrite_module modules/mod_rewrite.so
 LoadModule negotiation_module modules/mod_negotiation.so
 <IfModule unixd_module>
-User apache
-Group apache
+User webserver
+Group users
 </IfModule>
 
 ServerAdmin webmaster@localhost
@@ -226,11 +226,17 @@ fi
 if [ -d "/var/config" ]; then
     cp /var/config/httpd.conf /etc/apache2/httpd.conf
     cp /var/config/php.ini /etc/php85/php.ini
-    cp /var/config/crontab /etc/crontabs/root
+    cp /var/config/crontab /etc/crontabs/webserver
+    chmod 600 /etc/crontabs/webserver
 fi
 
 echo "Starting cron..."
-crond
-mkdir -p /var/log/apache2
+crond -f -L /var/log/cron.log &
+
 echo "Starting httpd..."
+mkdir -p /var/log/apache2
+chown webserver:users /var/log/apache2
+chmod 755 /var/log/apache2
+chown webserver:users /www
+chmod 755 /www
 exec httpd -D FOREGROUND
