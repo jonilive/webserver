@@ -235,15 +235,13 @@ fi
 mkdir -p /var/log/apache2
 chmod 755 /var/log/apache2
 
-if [! -f "/var/log/apache2/error.log" ]; then
-    touch /var/log/apache2/error.log
-fi
-if [! -f "/var/log/apache2/access.log" ]; then
-    touch /var/log/apache2/access.log
-fi
-if [! -f "/var/log/cron.log" ]; then
-    touch /var/log/cron.log
-fi
+for file in \
+    /var/log/apache2/error.log \
+    /var/log/apache2/access.log \
+    /var/log/cron.log
+do
+    [ -f "$file" ] || touch "$file"
+done
 
 chown webserver:users /var/log/apache2
 chown webserver:users /www
