@@ -1,8 +1,8 @@
 FROM alpine:latest
 
-RUN mkdir -p /run/apache2 /var/log /www
+RUN mkdir -p /run/apache2 /var/log /var/config /www
 
-VOLUME /var/log /www
+VOLUME /var/log /var/config /www
 EXPOSE 80
 
 RUN apk add --no-cache \
