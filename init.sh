@@ -214,12 +214,14 @@ if [ ! -f "/var/config/crontab" ]; then
 # Uncomment the line below to run a test command every minute as apache
 # * * * * * echo "Cron is working" >> /var/log/cron.log
 EOL
+    chmod 777 /var/config/crontab
 fi
 
 # If php.ini doesn't exist, copy the default php one so user can edit it later
 if [ ! -f "/var/config/php.ini" ]; then
     echo "Copy the default php.ini..."
     cp /etc/php85/php.ini /var/config/php.ini
+    chmod 777 /var/config/php.ini
 fi
 
 # Look for config files in /var/config and copy them to the appropriate locations
@@ -230,13 +232,29 @@ if [ -d "/var/config" ]; then
     chmod 600 /etc/crontabs/webserver
 fi
 
+mkdir -p /var/log/apache2
+chmod 755 /var/log/apache2
+
+if [! -f "/var/log/apache2/error.log" ]; then
+    touch /var/log/apache2/error.log
+fi
+if [! -f "/var/log/apache2/access.log" ]; then
+    touch /var/log/apache2/access.log
+fi
+if [! -f "/var/log/cron.log" ]; then
+    touch /var/log/cron.log
+fi
+
+chown webserver:users /var/log/apache2
+chown webserver:users /www
+
+chmod 755 /www
+chmod 777 /var/log/apache2/error.log
+chmod 777 /var/log/apache2/access.log
+chmod 777 /var/log/cron.log
+
 echo "Starting cron..."
 crond -f -L /var/log/cron.log &
 
 echo "Starting httpd..."
-mkdir -p /var/log/apache2
-chown webserver:users /var/log/apache2
-chmod 755 /var/log/apache2
-chown webserver:users /www
-chmod 755 /www
 exec httpd -D FOREGROUND

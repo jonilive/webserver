@@ -60,6 +60,7 @@ RUN apk add --no-cache \
     php85-xsl \
     php85-zip \
     py3-pip \
+    composer \
     python3 && \
     rm -rf /var/cache/apk/*
 
