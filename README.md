@@ -67,7 +67,7 @@ webserver/
 ├── init.sh             # Container initialization script
 ├── LICENSE             # MIT License
 ├── appdata/
-│   ├── config/         # Configuration files (httpd.conf, php.ini, crontab)
+│   ├── config/         # Configuration files (httpd.conf, php.ini, crontab, startup.sh)
 │   ├── log/            # Apache logs
 │   └── www/            # Web application files
 ```

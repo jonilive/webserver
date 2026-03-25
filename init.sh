@@ -251,6 +251,14 @@ chmod 777 /var/log/apache2/error.log
 chmod 777 /var/log/apache2/access.log
 chmod 777 /var/log/cron.log
 
+# Look for startup.sh in /var/config and execute it if it exists
+if [ -f "/var/config/startup.sh" ]; then
+    echo "Executing startup.sh..."
+    chmod 777 /var/config/startup.sh
+    chmod +x /var/config/startup.sh
+    /var/config/startup.sh
+fi
+
 echo "Starting cron..."
 crond -f -L /var/log/cron.log &
 
