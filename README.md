@@ -44,18 +44,18 @@ Edit `appdata/config/php.ini` to customize PHP settings. The file is copied to `
 
 ### Cron Jobs
 
-Edit `appdata/config/crontab` to add scheduled tasks. Uses system crontab format with user field. Jobs run as the `apache` user for consistency with web application permissions.
+Edit `appdata/config/crontab` to add scheduled tasks. Uses system crontab format with user field. Jobs run as the `webserver` user for consistency with web application permissions.
 
 Example crontab entries:
 ```
 # Run Laravel scheduler daily at 2 AM
-0 2 * * * apache php /www/artisan schedule:run
+0 2 * * * php /www/artisan schedule:run
 
 # Run queue worker every minute
-* * * * * apache php /www/artisan queue:work --sleep=3 --tries=3
+* * * * * php /www/artisan queue:work --sleep=3 --tries=3
 
 # Custom PHP script every 5 minutes
-*/5 * * * * apache php /www/custom-script.php
+*/5 * * * * php /www/custom-script.php
 ```
 
 ## Directory Structure
@@ -117,13 +117,13 @@ docker exec -it webserver /bin/sh
 
 ## Security Notes
 
-- Cron jobs run as the `apache` user, not root
-- Apache runs as `apache:apache` user/group
+- Cron jobs run as the `webserver` user, not root
+- Apache runs as `webserver:users` user/group
 - Container follows principle of least privilege
 
 ## Troubleshooting
 
-- **Permission issues**: Ensure files in `appdata/www/` are readable by the `apache` user
+- **Permission issues**: Ensure files in `appdata/www/` are readable by the `webserver` user
 - **Cron not working**: Check `/var/log/cron.log` inside the container
 - **PHP errors**: Check Apache error logs in `appdata/log/apache2/error.log`
 
