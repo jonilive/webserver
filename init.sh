@@ -233,7 +233,7 @@ if [ -d "/var/config" ]; then
 fi
 
 mkdir -p /var/log/apache2
-chmod 755 /var/log/apache2
+chmod 777 /var/log/apache2
 
 for file in \
     /var/log/apache2/error.log \
@@ -246,7 +246,7 @@ done
 chown webserver:users /var/log/apache2
 chown webserver:users /www
 
-chmod 755 /www
+chmod 777 /www
 chmod 777 /var/log/apache2/error.log
 chmod 777 /var/log/apache2/access.log
 chmod 777 /var/log/cron.log
