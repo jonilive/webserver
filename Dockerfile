@@ -60,8 +60,12 @@ RUN apk add --no-cache \
     php85-xsl \
     php85-zip \
     py3-pip \
-    python3 && \
+    python3 \
+    tzdata && \
     rm -rf /var/cache/apk/*
+    
+ENV TZ=UTC
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN adduser -D -u 99 -G users webserver
 RUN ln -s /usr/bin/php85 /usr/bin/php
