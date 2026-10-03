@@ -69,7 +69,7 @@ ENV TZ=UTC
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN adduser -D -u 99 -G users webserver
-RUN ln -s /usr/bin/php85 /usr/bin/php
+RUN ln -sf /usr/bin/php85 /usr/bin/php
 RUN curl -sS https://getcomposer.org/installer | php85 -- \
     --install-dir=/usr/local/bin \
     --filename=composer
