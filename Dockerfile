@@ -8,6 +8,7 @@ EXPOSE 443
 
 RUN apk add --no-cache \
     apache2 \
+    apache2-ssl \
     curl \
     dcron \
     git \
