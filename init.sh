@@ -259,6 +259,13 @@ if [ -f "/var/config/startup.sh" ]; then
     /var/config/startup.sh
 fi
 
+echo "Validating httpd configuration..."
+httpd -t || {
+    status=$?
+    echo "httpd configuration validation failed; refusing to start httpd." >&2
+    exit "$status"
+}
+
 echo "Starting cron..."
 crond -f -L /var/log/cron.log &
 
