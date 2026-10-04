@@ -8,6 +8,7 @@ A lightweight, configurable web server container based on Alpine Linux, featurin
 ## Features
 
 - **Apache 2.4** web server with PHP 8.5 integration
+- **HTTP/2** support for HTTPS virtual hosts
 - **PHP 8.5** with extensive extensions (GD, MySQLi, Redis, SOAP, XML, ZIP, etc.)
 - **Cron daemon** for scheduled tasks
 - **Configurable** via mounted volumes - edit configs without rebuilding
@@ -29,6 +30,15 @@ docker-compose up -d
 ```
 
 4. Access your site at `http://localhost`
+
+To serve HTTPS (including HTTP/2), configure an SSL virtual host and certificate in `appdata/config/httpd.conf` or an included Apache configuration file. HTTP/2 is enabled for TLS connections; plain HTTP continues to use HTTP/1.1. Port 443 is published by the Compose configuration.
+
+Existing installations keep their mounted Apache configuration when the container is updated. In `appdata/config/httpd.conf`, enable the HTTP/2 module and protocol for those installations:
+
+```apache
+LoadModule http2_module modules/mod_http2.so
+Protocols h2 http/1.1
+```
 
 ## Configuration
 

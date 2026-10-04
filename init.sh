@@ -76,7 +76,8 @@ LoadModule remoteip_module modules/mod_remoteip.so
 #LoadModule slotmem_shm_module modules/mod_slotmem_shm.so
 #LoadModule slotmem_plain_module modules/mod_slotmem_plain.so
 #LoadModule dialup_module modules/mod_dialup.so
-#LoadModule http2_module modules/mod_http2.so
+LoadModule http2_module modules/mod_http2.so
+Protocols h2 http/1.1
 LoadModule unixd_module modules/mod_unixd.so
 #LoadModule heartbeat_module modules/mod_heartbeat.so
 #LoadModule heartmonitor_module modules/mod_heartmonitor.so
