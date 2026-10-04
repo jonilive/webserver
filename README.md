@@ -42,6 +42,8 @@ Edit `appdata/config/httpd.conf` to customize Apache settings. The file is copie
 
 Edit `appdata/config/php.ini` to customize PHP settings. The file is copied to `/etc/php85/php.ini` on container startup.
 
+Edit `appdata/config/php-fpm.conf` to tune the PHP-FPM pool (workers, upload limits, etc.). The file is copied to `/etc/php85/php-fpm.d/www.conf` on container startup.
+
 ### Cron Jobs
 
 Edit `appdata/config/crontab` to add scheduled tasks. Uses system crontab format with user field. Jobs run as the `webserver` user for consistency with web application permissions.
@@ -67,7 +69,7 @@ webserver/
 ├── init.sh             # Container initialization script
 ├── LICENSE             # MIT License
 ├── appdata/
-│   ├── config/         # Configuration files (httpd.conf, php.ini, crontab, startup.sh)
+│   ├── config/         # Configuration files (httpd.conf, php.ini, php-fpm.conf, crontab, startup.sh)
 │   ├── log/            # Apache logs
 │   └── www/            # Web application files
 ```

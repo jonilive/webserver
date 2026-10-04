@@ -231,7 +231,10 @@ cat <<EOL > /etc/apache2/conf.d/php-fpm.conf
 </FilesMatch>
 EOL
 
-cat <<EOL > /etc/php85/php-fpm.d/www.conf
+# Create the PHP-FPM pool config if it doesn't exist, so user can edit it later
+if [ ! -f "/var/config/php-fpm.conf" ]; then
+    echo "Creating example php-fpm.conf..."
+    cat <<EOL > /var/config/php-fpm.conf
 [www]
 user = webserver
 group = users
@@ -250,17 +253,20 @@ php_value[upload_max_filesize] = 100M
 php_value[post_max_size] = 200M
 clear_env = no
 EOL
+    chmod 777 /var/config/php-fpm.conf
+fi
 
 # Look for config files in /var/config and copy them to the appropriate locations
 if [ -d "/var/config" ]; then
     cp /var/config/httpd.conf /etc/apache2/httpd.conf
     cp /var/config/php.ini /etc/php85/php.ini
+    cp /var/config/php-fpm.conf /etc/php85/php-fpm.d/www.conf
     cp /var/config/crontab /etc/crontabs/webserver
     chmod 600 /etc/crontabs/webserver
 fi
 
-mkdir -p /var/log/apache2
-chmod 777 /var/log/apache2
+mkdir -p /var/log/apache2 /var/log/php85
+chmod 777 /var/log/apache2 /var/log/php85
 
 for file in \
     /var/log/apache2/error.log \
