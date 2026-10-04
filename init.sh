@@ -251,6 +251,8 @@ pm.max_requests = 500
 catch_workers_output = yes
 php_value[upload_max_filesize] = 100M
 php_value[post_max_size] = 200M
+php_admin_value[session.save_handler] = redis
+php_admin_value[session.save_path] = "tcp://127.0.0.1:6379"
 clear_env = no
 EOL
     chmod 777 /var/config/php-fpm.conf
@@ -298,6 +300,9 @@ httpd -t || {
     echo "httpd configuration validation failed; refusing to start httpd." >&2
     exit "$status"
 }
+
+echo "Starting Redis (in-memory sessions, no disk persistence)..."
+redis-server --bind 127.0.0.1 --port 6379 --save "" --appendonly no --maxmemory 128mb --maxmemory-policy volatile-lru --daemonize yes --logfile "" > /dev/null
 
 echo "Validating PHP-FPM configuration..."
 php-fpm85 -t || exit $?

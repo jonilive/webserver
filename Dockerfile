@@ -64,6 +64,7 @@ RUN apk add --no-cache \
     php85-zip \
     py3-pip \
     python3 \
+    redis \
     tzdata && \
     rm -rf /var/cache/apk/*
     
