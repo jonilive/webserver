@@ -246,6 +246,8 @@ pm.min_spare_servers = 2
 pm.max_spare_servers = 6
 pm.max_requests = 500
 catch_workers_output = yes
+php_value[upload_max_filesize] = 100M
+php_value[post_max_size] = 200M
 clear_env = no
 EOL
 
