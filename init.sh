@@ -273,6 +273,7 @@ chmod 777 /var/log/apache2 /var/log/php85
 for file in \
     /var/log/apache2/error.log \
     /var/log/apache2/access.log \
+    /var/log/php85/error.log \
     /var/log/cron.log
 do
     [ -f "$file" ] || touch "$file"
@@ -284,6 +285,7 @@ chown webserver:users /www
 chmod 777 /www
 chmod 777 /var/log/apache2/error.log
 chmod 777 /var/log/apache2/access.log
+chmod 777 /var/log/php85/error.log
 chmod 777 /var/log/cron.log
 
 # Look for startup.sh in /var/config and execute it if it exists
