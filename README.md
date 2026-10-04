@@ -106,7 +106,7 @@ docker exec -it webserver /bin/sh
 
 ## PHP Extensions Included
 
-- php85, php85-apache2, php85-calendar, php85-cli, php85-common, php85-ctype, php85-curl
+- php85, php85-fpm, php85-calendar, php85-cli, php85-common, php85-ctype, php85-curl
 - php85-dev, php85-dom, php85-exif, php85-ffi, php85-fileinfo, php85-ftp, php85-gd
 - php85-gettext, php85-iconv, php85-imap, php85-intl, php85-mbstring, php85-mysqli
 - php85-odbc, php85-pcntl, php85-pdo, php85-pdo_mysql, php85-pdo_sqlite, php85-pear

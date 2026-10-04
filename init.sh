@@ -7,8 +7,8 @@ if [ ! -f "/var/config/httpd.conf" ]; then
 ServerTokens OS
 ServerRoot /var/www
 Listen 80
-#LoadModule mpm_event_module modules/mod_mpm_event.so
-LoadModule mpm_prefork_module modules/mod_mpm_prefork.so
+LoadModule mpm_event_module modules/mod_mpm_event.so
+#LoadModule mpm_prefork_module modules/mod_mpm_prefork.so
 #LoadModule mpm_worker_module modules/mod_mpm_worker.so
 LoadModule authn_file_module modules/mod_authn_file.so
 #LoadModule authn_dbm_module modules/mod_authn_dbm.so
@@ -125,7 +125,7 @@ DocumentRoot "/www"
 </DirectoryMatch>
 
 <IfModule dir_module>
-    DirectoryIndex index.html
+    DirectoryIndex index.php index.html
 </IfModule>
 
 <Files ".ht*">
@@ -224,6 +224,31 @@ if [ ! -f "/var/config/php.ini" ]; then
     chmod 777 /var/config/php.ini
 fi
 
+# PHP is served by PHP-FPM through mod_proxy_fcgi (works with event/worker/prefork MPMs)
+cat <<EOL > /etc/apache2/conf.d/php-fpm.conf
+<FilesMatch "\.(php|phar)\$">
+    SetHandler "proxy:unix:/run/php-fpm.sock|fcgi://localhost"
+</FilesMatch>
+EOL
+
+cat <<EOL > /etc/php85/php-fpm.d/www.conf
+[www]
+user = webserver
+group = users
+listen = /run/php-fpm.sock
+listen.owner = webserver
+listen.group = users
+listen.mode = 0660
+pm = dynamic
+pm.max_children = 20
+pm.start_servers = 4
+pm.min_spare_servers = 2
+pm.max_spare_servers = 6
+pm.max_requests = 500
+catch_workers_output = yes
+clear_env = no
+EOL
+
 # Look for config files in /var/config and copy them to the appropriate locations
 if [ -d "/var/config" ]; then
     cp /var/config/httpd.conf /etc/apache2/httpd.conf
@@ -265,6 +290,12 @@ httpd -t || {
     echo "httpd configuration validation failed; refusing to start httpd." >&2
     exit "$status"
 }
+
+echo "Validating PHP-FPM configuration..."
+php-fpm85 -t || exit $?
+
+echo "Starting PHP-FPM..."
+php-fpm85 -D
 
 echo "Starting cron..."
 crond -f -L /var/log/cron.log &

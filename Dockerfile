@@ -8,6 +8,7 @@ EXPOSE 443
 
 RUN apk add --no-cache \
     apache2 \
+    apache2-proxy \
     apache2-ssl \
     curl \
     dcron \
@@ -17,7 +18,6 @@ RUN apk add --no-cache \
     npm \
     openjdk8 \
     php85 \
-    php85-apache2 \
     php85-calendar \
     php85-cli \
     php85-common \
@@ -28,6 +28,7 @@ RUN apk add --no-cache \
     php85-exif \
     php85-ffi \
     php85-fileinfo \
+    php85-fpm \
     php85-ftp \
     php85-gd \
     php85-gettext \
